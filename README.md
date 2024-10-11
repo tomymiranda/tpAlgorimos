@@ -1,4 +1,3 @@
-# tpAlgorimos
 # Centros de Investigación
 
 La información sobre los centros de investigación estará almacenada en un archivo de texto llamado `centros.txt`, que deberá ser leído al iniciar la aplicación.  
