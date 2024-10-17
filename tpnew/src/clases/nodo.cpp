@@ -1,4 +1,4 @@
-#include "centroDeInvestigacion.cpp"
+#include "centroDeInvestigacion.h"
 
 class Nodo {
 private:
