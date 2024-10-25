@@ -1,7 +1,10 @@
 #include "lista.h"
+#include "../clases/proyectoCientifico.h"
+
+using namespace std;
 
 Lista::Lista() {
-    primero = 0;
+    primero = nullptr;
     largo = 0;
 }
 
@@ -9,8 +12,8 @@ bool Lista::vacia() {
     return (largo == 0);
 }
 
-void Lista::alta(Dato d, int pos) {
-    Nodo* nuevo = new Nodo(d);
+void Lista::alta(ProyectoCientifico d, int pos) {
+    Nodo* nuevo = new Nodo(d);  // Crear el nodo con ProyectoCientifico
     if (pos == 1) {
         nuevo->cambiar_siguiente(primero);
         primero = nuevo;
@@ -30,9 +33,9 @@ Nodo* Lista::obtener_nodo(int pos) {
     return aux;
 }
 
-Dato Lista::consulta(int pos) {
+ProyectoCientifico Lista::consulta(int pos) {
     Nodo* aux = obtener_nodo(pos);
-    return aux->obtener_dato();
+    return aux->obtener_dato();  // `obtener_dato` debe devolver un ProyectoCientifico
 }
 
 void Lista::baja(int pos) {
@@ -60,59 +63,11 @@ int Lista::obtener_largo() {
 }
 
 void Lista::mostrar() {
-    cout << "[";
+	cout << "[";
     if (!vacia()) {
         for (int i = 1; i < largo; i++)
-            cout << this->consulta(i) << ",";
+            cout << this->consulta(i) << ",";  // Asegúrate de que ProyectoCientifico tenga operador <<
         cout << this->consulta(largo);
     }
     cout << "]" << endl;
-}
-
-void Lista::insertarProductos() {
-    if (largo <= 1) return;
-
-    int i = 1;
-    while (i < largo) {
-        int producto = consulta(i) * consulta(i + 1);
-        alta(producto, i + 1);
-        i += 2;
-    }
-}
-
-void Lista::separarContiguosDivisibles() {
-    if (largo <= 1) return;
-
-    int i = 1;
-    while (i < largo) {
-        int a = consulta(i);
-        int b = consulta(i + 1);
-
-        if (a % b == 0) {
-            int cociente = a / b;
-            alta(cociente, i + 1);
-            i += 2;
-        } else {
-            i++;
-        }
-    }
-}
-
-Lista* Lista::eliminarYRetornarImpares() {
-    Lista* impares = new Lista();
-    int posOriginal = 1;
-    int posImpares = 1;
-
-    while (posOriginal <= largo) {
-        if (posOriginal % 2 != 0) {
-            int dato = consulta(posOriginal);
-            impares->alta(dato, posImpares);
-            posImpares++;
-            baja(posOriginal);
-        } else {
-            posOriginal++;
-        }
-    }
-
-    return impares;
 }

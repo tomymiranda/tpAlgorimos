@@ -1,27 +1,26 @@
 #include "nodo.h"
-
-Nodo::Nodo(Dato d)
-{
+#include "../clases/proyectoCientifico.h"
+Nodo::Nodo(ProyectoCientifico d) {
     dato = d;
-    siguiente = 0;
+    siguiente = nullptr;
 }
 
-void Nodo::cambiar_dato(Dato d)
-{
+// Cambia el dato almacenado en el nodo
+void Nodo::cambiar_dato(ProyectoCientifico d) {
     dato = d;
 }
 
-void Nodo::cambiar_siguiente(Nodo* s)
-{
+// Cambia el puntero al siguiente nodo
+void Nodo::cambiar_siguiente(Nodo* s) {
     siguiente = s;
 }
 
-Dato Nodo::obtener_dato()
-{
+// Retorna el dato almacenado en el nodo
+ProyectoCientifico Nodo::obtener_dato() {
     return dato;
 }
 
-Nodo* Nodo::obtener_siguiente()
-{
+// Retorna el puntero al siguiente nodo
+Nodo* Nodo::obtener_siguiente() {
     return siguiente;
 }
