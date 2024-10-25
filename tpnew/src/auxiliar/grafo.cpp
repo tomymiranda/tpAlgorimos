@@ -55,9 +55,10 @@ void Grafo::colaboracion_mas_economica(const std::string& origen, const std::str
     } else {
         std::cout << "Colaboraciones más económicas encontradas:\n";
         for (const auto& proyecto : proyectosOptimos) {
-            std::cout << "Proyecto: " << proyecto << ", Costo: " << proyecto.getCosto() << std::endl;
+            std::cout << "Proyecto: " << proyecto.getCentroOrigen() << " a " << proyecto.getCentroDestino()
+                      << ", Costo: " << proyecto.getCosto() << " miles de pesos\n";
         }
-        std::cout << "Costo total de la colaboración más económica: " << costoMinimo << std::endl;
+        std::cout << "Costo total de la colaboración más económica: " << costoMinimo << " miles de pesos\n";
     }
 }
 
@@ -92,8 +93,9 @@ void Grafo::colaboracion_mas_rapida(const std::string& origen, const std::string
     } else {
         std::cout << "Colaboraciones más rápidas encontradas:\n";
         for (const auto& proyecto : proyectosOptimos) {
-            std::cout << "Proyecto: " << proyecto << ", Duración: " << proyecto.getDuracion() << std::endl;
+            std::cout << "Proyecto: " << proyecto.getCentroOrigen() << " a " << proyecto.getCentroDestino()
+                      << ", Duración: " << proyecto.getDuracion() << " meses\n";
         }
-        std::cout << "Duración total de la colaboración más rápida: " << duracionMinima << std::endl;
+        std::cout << "Duración total de la colaboración más rápida: " << duracionMinima << " meses\n";
     }
 }

@@ -5,7 +5,10 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <vector>
 #include "../auxiliar/grafo.h"
+#include "../lector/lector.h" // Asegúrate de incluir el lector.h para acceder a LectorArchivo
+
 class Menu {
 private:
     Grafo grafo;  // Instancia de la clase Grafo que administra los centros y proyectos
