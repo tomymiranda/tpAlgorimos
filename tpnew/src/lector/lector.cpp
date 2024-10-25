@@ -91,13 +91,19 @@ CentroInvestigacion LectorArchivo::crearCentroDesdeLinea(const std::string& line
     float superficie;
     int num_laboratorios, proyectos_nacionales, proyectos_internacionales;
 
-    ss >> codigo >> nombre >> ciudad >> pais >> superficie
+    ss >> codigo;
+    std::getline(ss, nombre, ';'); // Leer el nombre completo hasta el siguiente punto y coma
+    ss >> ciudad >> pais >> superficie
        >> num_laboratorios >> proyectos_nacionales >> proyectos_internacionales;
+
+    // Asegúrate de que el nombre no tenga un espacio adicional al principio
+    nombre.erase(0, nombre.find_first_not_of(" ")); // Eliminar espacios en blanco al principio
 
     return CentroInvestigacion(codigo, nombre, ciudad, pais, superficie,
                                num_laboratorios, proyectos_nacionales,
                                proyectos_internacionales);
 }
+
 
 // Crear un objeto ProyectoCientifico a partir de una línea
 ProyectoCientifico LectorArchivo::crearProyectoDesdeLinea(const std::string& linea) {
@@ -105,7 +111,15 @@ ProyectoCientifico LectorArchivo::crearProyectoDesdeLinea(const std::string& lin
     std::string origen, destino;
     float costo, duracion;
 
-    ss >> origen >> destino >> costo >> duracion;
+    // Leer los dos primeros campos (origen y destino) usando getline
+    std::getline(ss, origen, ';'); // Usar punto y coma como delimitador
+    std::getline(ss, destino, ';'); // Usar punto y coma como delimitador
+    ss >> costo >> duracion; // Leer costo y duración
+
+    // Asegúrate de que 'origen' y 'destino' no tengan espacios en blanco al principio
+    origen.erase(0, origen.find_first_not_of(" "));
+    destino.erase(0, destino.find_first_not_of(" "));
 
     return ProyectoCientifico(origen, destino, costo, duracion);
 }
+
