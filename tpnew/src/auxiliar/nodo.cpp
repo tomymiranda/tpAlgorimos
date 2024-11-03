@@ -1,26 +1,34 @@
 #include "nodo.h"
+#include "../clases/centroDeInvestigacion.h"
 #include "../clases/proyectoCientifico.h"
-Nodo::Nodo(ProyectoCientifico d) {
+// Definición del constructor
+template <typename T>
+Nodo<T>::Nodo(T d) : dato(d), siguiente(nullptr) {}
+
+// Definición del método para cambiar el dato
+template <typename T>
+void Nodo<T>::cambiar_dato(T d) {
     dato = d;
-    siguiente = nullptr;
 }
 
-// Cambia el dato almacenado en el nodo
-void Nodo::cambiar_dato(ProyectoCientifico d) {
-    dato = d;
-}
-
-// Cambia el puntero al siguiente nodo
-void Nodo::cambiar_siguiente(Nodo* s) {
+// Definición del método para cambiar el siguiente nodo
+template <typename T>
+void Nodo<T>::cambiar_siguiente(Nodo<T>* s) {
     siguiente = s;
 }
 
-// Retorna el dato almacenado en el nodo
-ProyectoCientifico Nodo::obtener_dato() {
+// Definición del método para obtener el dato
+template <typename T>
+T Nodo<T>::obtener_dato() const {
     return dato;
 }
 
-// Retorna el puntero al siguiente nodo
-Nodo* Nodo::obtener_siguiente() {
+// Definición del método para obtener el siguiente nodo
+template <typename T>
+Nodo<T>* Nodo<T>::obtener_siguiente() const {
     return siguiente;
 }
+
+// Para que las implementaciones de las plantillas sean visibles, incluye el archivo de cabecera aquí.
+template class Nodo<CentroInvestigacion>;  // Ejemplo de instanciación para CentroInvestigacion
+template class Nodo<ProyectoCientifico>;   // Ejemplo de instanciación para ProyectoCientifico

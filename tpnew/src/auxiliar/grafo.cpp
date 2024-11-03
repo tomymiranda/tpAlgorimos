@@ -1,20 +1,20 @@
-#include "grafo.h"
+/*
+ * #include "grafo.h"
 #include <iostream>
 #include <vector>
 #include <limits>
-#include "../clases/proyectoCientifico.h"
-
-// Constructor
-Grafo::Grafo() {}
+#include "../clases/proyectoCientifico.h"  // Asegúrate de incluir el archivo correspondiente
 
 // Agregar un proyecto de colaboración entre centros
-void Grafo::agregar_proyecto(const std::string& centro_origen, const std::string& centro_destino, float costo, float duracion) {
-    ProyectoCientifico nuevoProyecto(centro_origen, centro_destino, costo, duracion);
-    adyacencias[centro_origen].alta(nuevoProyecto, adyacencias[centro_origen].obtener_largo() + 1); // Usamos tu Lista
+template <typename T>
+void Grafo<T>::agregar_proyecto(const std::string& centro_origen, const std::string& centro_destino, float costo, float duracion) {
+    T nuevoProyecto(centro_origen, centro_destino, costo, duracion);
+    adyacencias[centro_origen].alta(nuevoProyecto, adyacencias[centro_origen].obtener_largo());
 }
 
 // Mostrar todas las colaboraciones de un centro en particular
-void Grafo::mostrar_colaboraciones(const std::string& centro_origen) {
+template <typename T>
+void Grafo<T>::mostrar_colaboraciones(const std::string& centro_origen) {
     if (adyacencias.find(centro_origen) == adyacencias.end()) {
         std::cout << "El centro no tiene colaboraciones registradas.\n";
         return;
@@ -25,18 +25,19 @@ void Grafo::mostrar_colaboraciones(const std::string& centro_origen) {
 }
 
 // Buscar colaboración más económica entre dos centros
-void Grafo::colaboracion_mas_economica(const std::string& origen, const std::string& destino) {
+template <typename T>
+void Grafo<T>::colaboracion_mas_economica(const std::string& origen, const std::string& destino) {
     if (adyacencias.find(origen) == adyacencias.end()) {
         std::cout << "No se encontraron colaboraciones para el centro de origen " << origen << ".\n";
         return;
     }
 
     float costoMinimo = std::numeric_limits<float>::max();
-    std::vector<ProyectoCientifico> proyectosOptimos;
+    std::vector<T> proyectosOptimos;
 
     // Recolectar todos los proyectos que coinciden con el centro de destino
-    for (int i = 1; i <= adyacencias[origen].obtener_largo(); ++i) {
-        ProyectoCientifico actual = adyacencias[origen].consulta(i);
+    for (int i = 0; i < adyacencias[origen].obtener_largo(); ++i) {
+        T actual = adyacencias[origen].consulta(i);
         if (actual.getCentroDestino() == destino) {
             float costoActual = actual.getCosto();
             if (costoActual < costoMinimo) {
@@ -63,18 +64,19 @@ void Grafo::colaboracion_mas_economica(const std::string& origen, const std::str
 }
 
 // Buscar colaboración más rápida entre dos centros
-void Grafo::colaboracion_mas_rapida(const std::string& origen, const std::string& destino) {
+template <typename T>
+void Grafo<T>::colaboracion_mas_rapida(const std::string& origen, const std::string& destino) {
     if (adyacencias.find(origen) == adyacencias.end()) {
         std::cout << "No se encontraron colaboraciones para el centro de origen " << origen << ".\n";
         return;
     }
 
     float duracionMinima = std::numeric_limits<float>::max();
-    std::vector<ProyectoCientifico> proyectosOptimos;
+    std::vector<T> proyectosOptimos;
 
     // Recolectar todos los proyectos que coinciden con el centro de destino
-    for (int i = 1; i <= adyacencias[origen].obtener_largo(); ++i) {
-        ProyectoCientifico actual = adyacencias[origen].consulta(i);
+    for (int i = 0; i < adyacencias[origen].obtener_largo(); ++i) {
+        T actual = adyacencias[origen].consulta(i);
         if (actual.getCentroDestino() == destino) {
             float duracionActual = actual.getDuracion();
             if (duracionActual < duracionMinima) {
@@ -99,3 +101,6 @@ void Grafo::colaboracion_mas_rapida(const std::string& origen, const std::string
         std::cout << "Duración total de la colaboración más rápida: " << duracionMinima << " meses\n";
     }
 }
+ * */
+
+

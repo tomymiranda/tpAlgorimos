@@ -7,11 +7,15 @@
 #include <string>
 #include <vector>
 #include "../auxiliar/grafo.h"
-#include "../lector/lector.h" // Asegúrate de incluir el lector.h para acceder a LectorArchivo
+#include "../auxiliar/tablaHash.h"
+#include "../lector/lector.h"
+#include "../clases/proyectoCientifico.h"
+#include "../clases/centroDeInvestigacion.h"
 
 class Menu {
 private:
-    Grafo grafo;  // Instancia de la clase Grafo que administra los centros y proyectos
+    Grafo<ProyectoCientifico> grafo;  // Especifica que el grafo almacena objetos de ProyectoCientifico
+    TablaHash<CentroInvestigacion> tabla; // Especifica que la tabla hash almacena objetos de CentroInvestigacion
 
 public:
     // Constructor que inicializa el menú y carga los centros y proyectos

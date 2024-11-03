@@ -3,13 +3,13 @@
 
 #include <iostream>
 #include <vector>
-#include <list>
 #include <string>
-#include "../clases/centroDeInvestigacion.h"
+#include "lista.h" // Incluye el archivo que contiene la clase Lista
 
+template <typename T>
 class TablaHash {
 private:
-    std::vector<std::list<CentroInvestigacion>> tabla;  // Tabla de hash con listas enlazadas
+    std::vector<Lista<T>> tabla; // Tabla de hash usando Lista con tipo genérico T
     int capacidad;  // Capacidad de la tabla de hash
 
     // Función de hash para obtener el índice basado en el código del centro
@@ -19,17 +19,17 @@ public:
     // Constructor de la tabla de hash
     TablaHash(int cap);
 
-    // Método para insertar un centro en la tabla de hash
-    void insertar(const CentroInvestigacion& centro);
+    // Método para insertar un elemento en la tabla de hash
+    void insertar(const std::string& codigo, const T& elemento);
 
-    // Método para buscar un centro de investigación por su código
+    // Método para buscar un elemento por su código
     bool buscar(const std::string& codigo);
 
-    // Método para eliminar un centro de la tabla de hash por su código
+    // Método para eliminar un elemento por su código
     bool eliminar(const std::string& codigo);
 
-    // Método para mostrar todos los centros, ordenados por el criterio dado
+    // Método para mostrar todos los elementos, ordenados por el criterio dado
     void mostrarTodos(const std::string& criterio);
 };
 
-#endif
+#endif // TABLAHASH_H

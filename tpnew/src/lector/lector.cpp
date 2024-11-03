@@ -7,30 +7,27 @@
 LectorArchivo::LectorArchivo(const std::string& archivo)
     : nombreArchivo(archivo) {}
 
-
 void LectorArchivo::imprimirNombreArchivo() const {
     std::cout << "Nombre del archivo: " << nombreArchivo << std::endl;
 }
+
 // Leer archivos de centros
 std::vector<CentroInvestigacion> LectorArchivo::leerArchivoCentros() {
     std::vector<CentroInvestigacion> centros;
 
     std::ifstream archivo(nombreArchivo);
-
-    // Verificar si el archivo se abre correctamente
     if (!archivo.is_open()) {
         std::cerr << "No se pudo abrir el archivo: " << nombreArchivo << std::endl;
         return centros;
     }
 
-    std::cout << "Archivo " << nombreArchivo << " abierto correctamente." << std::endl; // Mensaje de éxito
+    std::cout << "Archivo " << nombreArchivo << " abierto correctamente." << std::endl;
 
-    // Leer líneas del archivo y verificar si hay contenido
     std::string linea;
-    bool hayDatos = false; // Variable para verificar si hay datos
+    bool hayDatos = false;
     while (std::getline(archivo, linea)) {
-        if (!linea.empty()) { // Solo procesar líneas no vacías
-            hayDatos = true; // Marcamos que hay datos
+        if (!linea.empty()) {
+            hayDatos = true;
             CentroInvestigacion centro = crearCentroDesdeLinea(linea);
             centros.emplace_back(centro);
         }
@@ -38,7 +35,6 @@ std::vector<CentroInvestigacion> LectorArchivo::leerArchivoCentros() {
 
     archivo.close();
 
-    // Comprobación de datos leídos
     if (hayDatos) {
         std::cout << "Se leyeron " << centros.size() << " centros del archivo." << std::endl;
     } else {
@@ -53,8 +49,6 @@ std::vector<ProyectoCientifico> LectorArchivo::leerArchivoProyectos() {
     std::vector<ProyectoCientifico> proyectos;
 
     std::ifstream archivo(nombreArchivo);
-
-    // Verificar si el archivo se abre correctamente
     if (!archivo.is_open()) {
         std::cerr << "No se pudo abrir el archivo: " << nombreArchivo << std::endl;
         return proyectos;
@@ -63,10 +57,10 @@ std::vector<ProyectoCientifico> LectorArchivo::leerArchivoProyectos() {
     std::cout << "Archivo de proyectos " << nombreArchivo << " abierto correctamente." << std::endl;
 
     std::string linea;
-    bool hayDatos = false; // Variable para verificar si hay datos
+    bool hayDatos = false;
     while (std::getline(archivo, linea)) {
-        if (!linea.empty()) { // Solo procesar líneas no vacías
-            hayDatos = true; // Marcamos que hay datos
+        if (!linea.empty()) {
+            hayDatos = true;
             ProyectoCientifico proyecto = crearProyectoDesdeLinea(linea);
             proyectos.emplace_back(proyecto);
         }
@@ -74,7 +68,6 @@ std::vector<ProyectoCientifico> LectorArchivo::leerArchivoProyectos() {
 
     archivo.close();
 
-    // Comprobación de datos leídos
     if (hayDatos) {
         std::cout << "Se leyeron " << proyectos.size() << " proyectos del archivo." << std::endl;
     } else {
@@ -92,33 +85,48 @@ CentroInvestigacion LectorArchivo::crearCentroDesdeLinea(const std::string& line
     int num_laboratorios, proyectos_nacionales, proyectos_internacionales;
 
     ss >> codigo;
-    std::getline(ss, nombre, ';'); // Leer el nombre completo hasta el siguiente punto y coma
-    ss >> ciudad >> pais >> superficie
-       >> num_laboratorios >> proyectos_nacionales >> proyectos_internacionales;
+    std::getline(ss, nombre, ';');
+    ss >> ciudad >> pais >> superficie >> num_laboratorios >> proyectos_nacionales >> proyectos_internacionales;
 
-    // Asegúrate de que el nombre no tenga un espacio adicional al principio
-    nombre.erase(0, nombre.find_first_not_of(" ")); // Eliminar espacios en blanco al principio
+    nombre.erase(0, nombre.find_first_not_of(" "));
 
     return CentroInvestigacion(codigo, nombre, ciudad, pais, superficie,
                                num_laboratorios, proyectos_nacionales,
                                proyectos_internacionales);
 }
 
-
+// Crear un objeto ProyectoCientifico a partir de una línea
 // Crear un objeto ProyectoCientifico a partir de una línea
 ProyectoCientifico LectorArchivo::crearProyectoDesdeLinea(const std::string& linea) {
     std::istringstream ss(linea);
-    std::string origen, destino;
-    float costo, duracion;
+    std::string origen, destino, costoStr, duracionStr;
+    float costo = 0.0, duracion = 0.0;
 
-    // Leer los dos primeros campos (origen y destino) usando getline
-    std::getline(ss, origen, ';'); // Usar punto y coma como delimitador
-    std::getline(ss, destino, ';'); // Usar punto y coma como delimitador
-    ss >> costo >> duracion; // Leer costo y duración
+    // Leer origen y destino usando punto y coma como delimitador
+    std::getline(ss, origen, ';');
+    std::getline(ss, destino, ';');
+    std::getline(ss, costoStr, ';');   // Leer costo como string
+    std::getline(ss, duracionStr, ';'); // Leer duracion como string
 
-    // Asegúrate de que 'origen' y 'destino' no tengan espacios en blanco al principio
+    // Convertir costo y duracion de string a float
+    try {
+        costo = std::stof(costoStr);
+        duracion = std::stof(duracionStr);
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Error: Conversión inválida en la línea: " << linea << std::endl;
+    } catch (const std::out_of_range& e) {
+        std::cerr << "Error: Valor fuera de rango en la línea: " << linea << std::endl;
+    }
+
+    // Limpiar espacios adicionales al principio y al final de origen y destino
     origen.erase(0, origen.find_first_not_of(" "));
+    origen.erase(origen.find_last_not_of(" ") + 1);
     destino.erase(0, destino.find_first_not_of(" "));
+    destino.erase(destino.find_last_not_of(" ") + 1);
+
+    // Mostrar los valores finales leídos para verificar
+    std::cout << "Origen: " << origen << ", Destino: " << destino
+              << ", Costo: " << costo << ", Duración: " << duracion << std::endl;
 
     return ProyectoCientifico(origen, destino, costo, duracion);
 }

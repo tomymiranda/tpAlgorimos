@@ -1,27 +1,27 @@
 #ifndef NODO_H_INCLUDED
 #define NODO_H_INCLUDED
 
-#include "../clases/proyectoCientifico.h"  // Incluir el archivo de ProyectoCientifico
-
+template <typename T>
 class Nodo {
 private:
-    // Atributos
-    ProyectoCientifico dato;
-    Nodo* siguiente;
+    T dato;           // Almacena el dato genérico
+    Nodo* siguiente;  // Puntero al siguiente nodo
 
 public:
-    // Constructor
-    // PRE:
-    // POS: Crea un nodo con dato = d y siguiente = nullptr
-    Nodo(ProyectoCientifico d);
+    // Constructor que acepta un dato del tipo T
+    Nodo(T d);
 
-    // Métodos para modificar el dato y el puntero siguiente
-    void cambiar_dato(ProyectoCientifico d);
+    // Método para cambiar el dato
+    void cambiar_dato(T d);
+
+    // Método para cambiar el siguiente nodo
     void cambiar_siguiente(Nodo* s);
 
-    // Métodos para obtener el dato y el siguiente nodo
-    ProyectoCientifico obtener_dato();
-    Nodo* obtener_siguiente();
+    // Método para obtener el dato
+    T obtener_dato() const;
+
+    // Método para obtener el siguiente nodo
+    Nodo* obtener_siguiente() const;
 };
 
 #endif // NODO_H_INCLUDED

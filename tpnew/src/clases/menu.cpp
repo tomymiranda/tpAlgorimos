@@ -1,13 +1,16 @@
-#include "menu.h"  // Asegúrate de incluir el encabezado correspondiente
+#include "menu.h"
 #include "../auxiliar/grafo.h"
+#include "../auxiliar/tablaHash.h"
 #include "../lector/lector.h"
 #include <vector>
 #include <fstream>
 #include <sstream>
 
 // Constructor: inicializa el grafo y carga los datos de los archivos
-Menu::Menu(const std::string& archivo_centros, const std::string& archivo_proyectos) {
-    cargar_centros(archivo_centros);  // Esta función sigue siendo necesaria para cargar centros si se utiliza
+Menu::Menu(const std::string& archivo_centros, const std::string& archivo_proyectos)
+    : grafo(),    // Inicialización de grafo sin parámetros, asumiendo que tiene un constructor sin parámetros
+      tabla(10) { // Inicialización de tabla con una capacidad de 10
+    cargar_centros(archivo_centros);
     cargar_proyectos(archivo_proyectos);
 }
 
@@ -71,23 +74,24 @@ void Menu::procesar_opcion(int opcion) {
 // Cargar centros desde el archivo utilizando LectorArchivo
 void Menu::cargar_centros(const std::string& archivo_centros) {
     LectorArchivo lector(archivo_centros);
-    lector.imprimirNombreArchivo();// Crear una instancia de LectorArchivo
-    std::vector<CentroInvestigacion> centros = lector.leerArchivoCentros(); // Leer los centros
+    lector.imprimirNombreArchivo();  // Muestra el nombre del archivo si es necesario
 
-    for (const auto& centro : centros) {
+    for (const auto& centro : lector.leerArchivoCentros()) {  // Itera directamente sobre los centros leídos
+    	tabla.insertar(centro.getCodigo(), centro);  // Agrega cada centro a la tabla de hash
         std::cout << "Centro cargado: " << centro.getCodigo() << " - " << centro.getNombre()
                   << " en " << centro.getCiudad() << ", " << centro.getPais() << "\n";
     }
 }
 
-// Cargar proyectos desde el archivo utilizando LectorArchivo
+
 void Menu::cargar_proyectos(const std::string& archivo_proyectos) {
     LectorArchivo lector(archivo_proyectos); // Crear una instancia de LectorArchivo
-    std::vector<ProyectoCientifico> proyectos = lector.leerArchivoProyectos(); // Leer los proyectos
 
-    for (const auto& proyecto : proyectos) {
-        grafo.agregar_proyecto(proyecto.getCentroOrigen(), proyecto.getCentroDestino(), proyecto.getCosto(), proyecto.getDuracion()); // Agregar el proyecto al grafo
+    for (const auto& proyecto : lector.leerArchivoProyectos()) { // Itera directamente sobre los proyectos leídos
+        grafo.agregar_proyecto(proyecto.getCentroOrigen(), proyecto.getCentroDestino(),
+                               proyecto.getCosto(), proyecto.getDuracion()); // Agregar el proyecto al grafo
         std::cout << "Proyecto cargado: " << proyecto.getCentroOrigen() << " -> " << proyecto.getCentroDestino()
                   << " con costo: " << proyecto.getCosto() << " y duración: " << proyecto.getDuracion() << "\n";
     }
 }
+
