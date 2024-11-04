@@ -18,7 +18,7 @@ private:
 
 public:
     // Constructor sin parámetros
-    Grafo() {}  // Constructor sin hacer nada, pero necesario
+    Grafo() {}
 
     void agregar_proyecto(const std::string& centro_origen, const std::string& centro_destino, float costo, float duracion) {
         T nuevoProyecto(centro_origen, centro_destino, costo, duracion);
@@ -30,41 +30,53 @@ public:
             std::cout << "El centro no tiene colaboraciones registradas.\n";
             return;
         }
-
         std::cout << "Colaboraciones del centro " << centro_origen << ":\n";
-        adyacencias[centro_origen].mostrar();  // Usamos el método mostrar() de tu Lista
+        adyacencias[centro_origen].mostrar();
     }
 
+    // Método para encontrar el camino de colaboración más económico
     void colaboracion_mas_economica(const std::string& origen, const std::string& destino) {
         if (adyacencias.find(origen) == adyacencias.end()) {
             std::cout << "No se encontraron colaboraciones para el centro de origen " << origen << ".\n";
             return;
         }
 
+        std::queue<std::tuple<std::string, float, std::vector<T>>> cola;
         float costoMinimo = std::numeric_limits<float>::max();
-        std::vector<T> proyectosOptimos;
+        std::vector<T> caminoOptimo;
 
-        // Recolectar todos los proyectos que coinciden con el centro de destino
-        for (int i = 0; i < adyacencias[origen].obtener_largo(); ++i) {
-            T actual = adyacencias[origen].consulta(i);
-            if (actual.getCentroDestino() == destino) {
-                float costoActual = actual.getCosto();
-                if (costoActual < costoMinimo) {
-                    costoMinimo = costoActual;
-                    proyectosOptimos.clear();  // Limpiar proyectos óptimos anteriores
-                    proyectosOptimos.push_back(actual);  // Agregar nuevo proyecto óptimo
-                } else if (costoActual == costoMinimo) {
-                    proyectosOptimos.push_back(actual);  // Agregar proyecto si tiene el mismo costo
+        cola.push({origen, 0.0, {}});
+
+        while (!cola.empty()) {
+            auto [centroActual, costoAcumulado, camino] = cola.front();
+            cola.pop();
+
+            if (centroActual == destino) {
+                if (costoAcumulado < costoMinimo) {
+                    costoMinimo = costoAcumulado;
+                    caminoOptimo = camino;
+                }
+                continue;
+            }
+
+            for (int i = 0; i < adyacencias[centroActual].obtener_largo(); ++i) {
+                T proyecto = adyacencias[centroActual].consulta(i);
+                std::string siguienteCentro = proyecto.getCentroDestino();
+                float nuevoCostoAcumulado = costoAcumulado + proyecto.getCosto();
+
+                if (nuevoCostoAcumulado < costoMinimo) {
+                    std::vector<T> nuevoCamino = camino;
+                    nuevoCamino.push_back(proyecto);
+                    cola.push({siguienteCentro, nuevoCostoAcumulado, nuevoCamino});
                 }
             }
         }
 
-        // Mostrar resultados
-        if (proyectosOptimos.empty()) {
+        if (caminoOptimo.empty()) {
             std::cout << "No se encontraron colaboraciones entre " << origen << " y " << destino << ".\n";
         } else {
-            std::cout << "Colaboraciones más económicas encontradas:\n";
-            for (const auto& proyecto : proyectosOptimos) {
+            std::cout << "Camino de colaboración más económico encontrado:\n";
+            for (const auto& proyecto : caminoOptimo) {
                 std::cout << "Proyecto: " << proyecto.getCentroOrigen() << " a " << proyecto.getCentroDestino()
                           << ", Costo: " << proyecto.getCosto() << " miles de pesos\n";
             }
@@ -72,36 +84,49 @@ public:
         }
     }
 
+    // Método para encontrar el camino de colaboración más rápida
     void colaboracion_mas_rapida(const std::string& origen, const std::string& destino) {
         if (adyacencias.find(origen) == adyacencias.end()) {
             std::cout << "No se encontraron colaboraciones para el centro de origen " << origen << ".\n";
             return;
         }
 
+        std::queue<std::tuple<std::string, float, std::vector<T>>> cola;
         float duracionMinima = std::numeric_limits<float>::max();
-        std::vector<T> proyectosOptimos;
+        std::vector<T> caminoOptimo;
 
-        // Recolectar todos los proyectos que coinciden con el centro de destino
-        for (int i = 0; i < adyacencias[origen].obtener_largo(); ++i) {
-            T actual = adyacencias[origen].consulta(i);
-            if (actual.getCentroDestino() == destino) {
-                float duracionActual = actual.getDuracion();
-                if (duracionActual < duracionMinima) {
-                    duracionMinima = duracionActual;
-                    proyectosOptimos.clear();  // Limpiar proyectos óptimos anteriores
-                    proyectosOptimos.push_back(actual);  // Agregar nuevo proyecto óptimo
-                } else if (duracionActual == duracionMinima) {
-                    proyectosOptimos.push_back(actual);  // Agregar proyecto si tiene la misma duración
+        cola.push({origen, 0.0, {}});
+
+        while (!cola.empty()) {
+            auto [centroActual, duracionAcumulada, camino] = cola.front();
+            cola.pop();
+
+            if (centroActual == destino) {
+                if (duracionAcumulada < duracionMinima) {
+                    duracionMinima = duracionAcumulada;
+                    caminoOptimo = camino;
+                }
+                continue;
+            }
+
+            for (int i = 0; i < adyacencias[centroActual].obtener_largo(); ++i) {
+                T proyecto = adyacencias[centroActual].consulta(i);
+                std::string siguienteCentro = proyecto.getCentroDestino();
+                float nuevaDuracionAcumulada = duracionAcumulada + proyecto.getDuracion();
+
+                if (nuevaDuracionAcumulada < duracionMinima) {
+                    std::vector<T> nuevoCamino = camino;
+                    nuevoCamino.push_back(proyecto);
+                    cola.push({siguienteCentro, nuevaDuracionAcumulada, nuevoCamino});
                 }
             }
         }
 
-        // Mostrar resultados
-        if (proyectosOptimos.empty()) {
+        if (caminoOptimo.empty()) {
             std::cout << "No se encontraron colaboraciones entre " << origen << " y " << destino << ".\n";
         } else {
-            std::cout << "Colaboraciones más rápidas encontradas:\n";
-            for (const auto& proyecto : proyectosOptimos) {
+            std::cout << "Camino de colaboración más rápida encontrado:\n";
+            for (const auto& proyecto : caminoOptimo) {
                 std::cout << "Proyecto: " << proyecto.getCentroOrigen() << " a " << proyecto.getCentroDestino()
                           << ", Duración: " << proyecto.getDuracion() << " meses\n";
             }
@@ -112,38 +137,35 @@ public:
     // Método BFS para verificar si existe un camino entre dos centros
     bool existe_camino_bfs(const std::string& origen, const std::string& destino) {
         if (adyacencias.find(origen) == adyacencias.end()) {
-            return false;  // No hay colaboraciones desde el centro de origen
+            return false;
         }
 
-        std::queue<std::string> cola;  // Cola para el recorrido BFS
-        std::unordered_set<std::string> visitados;  // Conjunto para marcar los centros ya visitados
+        std::queue<std::string> cola;
+        std::unordered_set<std::string> visitados;
 
-        cola.push(origen);           // Iniciar desde el nodo de origen
-        visitados.insert(origen);    // Marcar el origen como visitado
+        cola.push(origen);
+        visitados.insert(origen);
 
         while (!cola.empty()) {
             std::string actual = cola.front();
             cola.pop();
 
-            // Si el centro actual es el destino, encontramos un camino
             if (actual == destino) {
                 return true;
             }
 
-            // Obtener todos los centros conectados al centro actual
             for (int i = 0; i < adyacencias[actual].obtener_largo(); ++i) {
                 T proyecto = adyacencias[actual].consulta(i);
                 std::string siguienteCentro = proyecto.getCentroDestino();
 
-                // Si no hemos visitado el centro siguiente, lo agregamos a la cola
                 if (visitados.find(siguienteCentro) == visitados.end()) {
                     cola.push(siguienteCentro);
-                    visitados.insert(siguienteCentro);  // Marcar como visitado
+                    visitados.insert(siguienteCentro);
                 }
             }
         }
 
-        return false;  // No se encontró un camino al destino
+        return false;
     }
 };
 

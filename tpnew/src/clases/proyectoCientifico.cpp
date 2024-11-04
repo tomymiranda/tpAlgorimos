@@ -2,7 +2,7 @@
 #include <iostream>
 
 // Constructor por defecto
-ProyectoCientifico::ProyectoCientifico() : centro_origen(""), centro_destino(""), costo(0), duracion(0) {}
+//ProyectoCientifico::ProyectoCientifico() : centro_origen(""), centro_destino(""), costo(0), duracion(0) {}
 
 // Constructor con parámetros
 ProyectoCientifico::ProyectoCientifico(const std::string& origen, const std::string& destino, float costo, float duracion)
