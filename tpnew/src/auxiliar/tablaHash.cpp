@@ -29,9 +29,28 @@ void TablaHash<T>::insertar(const std::string& codigo, const T& elemento) {
     tabla[index].alta(elemento, tabla[index].obtener_largo());  // Inserta el elemento en la lista
 }
 
-// Método para buscar un elemento
 template <typename T>
-bool TablaHash<T>::buscar(const std::string& codigo) {
+T TablaHash<T>::buscar(const std::string& codigo) {
+    int index = hashFunction(codigo);  // Usa la función de hash correcta
+    Lista<T>& lista = tabla[index];    // Accede a la lista en el índice calculado
+
+    // Itera sobre la lista en la posición index para encontrar el elemento
+    for (int i = 0; i < lista.obtener_largo(); ++i) {
+        T elemento = lista.consulta(i);  // Obtiene una copia del elemento en la posición `i`
+        if (elemento.getCodigo() == codigo) {
+            return elemento;  // Devuelve una copia del objeto encontrado
+        }
+    }
+
+    // Si no se encuentra, podrías lanzar una excepción o definir un objeto nulo de T
+    throw std::runtime_error("Elemento no encontrado");
+}
+
+
+
+// Método para buscar si existe un elemento
+template <typename T>
+bool TablaHash<T>::existe(const std::string& codigo) {
     int index = hashFunction(codigo);
     Lista<T>& lista = tabla[index];  // Especifica el tipo como T
 
@@ -67,11 +86,13 @@ void TablaHash<T>::mostrarTodos(const std::string& criterio) {
     // Recopilar todos los elementos de la tabla hash
     for (auto& lista : tabla) {
         for (int i = 0; i < lista.obtener_largo(); ++i) {
-            todosElementos.push_back(lista.consulta(i));
+            T centro = lista.consulta(i);
+
+            todosElementos.push_back(centro);
         }
     }
 
-    // Ordenar según el criterio indicado
+    // Ordenar según el criterio indicado, tiene q ser una sola palabra
     if (criterio == "nombre") {
         std::sort(todosElementos.begin(), todosElementos.end(), [](const T& a, const T& b) {
             return a.getNombre() < b.getNombre();
@@ -84,14 +105,30 @@ void TablaHash<T>::mostrarTodos(const std::string& criterio) {
         std::sort(todosElementos.begin(), todosElementos.end(), [](const T& a, const T& b) {
             return a.getSuperficie() < b.getSuperficie();
         });
+    } else if (criterio == "laboratorio") {
+        std::sort(todosElementos.begin(), todosElementos.end(), [](const T& a, const T& b) {
+            return a.getNumLaboratorios() < b.getNumLaboratorios();
+        });
+    } else if (criterio == "nacionales") {
+        std::sort(todosElementos.begin(), todosElementos.end(), [](const T& a, const T& b) {
+            return a.getProyectosNacionales() < b.getProyectosNacionales();
+        });
+    } else if (criterio == "internacionales") {
+        std::sort(todosElementos.begin(), todosElementos.end(), [](const T& a, const T& b) {
+            return a.getProyectosInternacionales() < b.getProyectosInternacionales();
+        });
     }
 
-    // Mostrar todos los elementos ordenados
+    // Mostrar todos los elementos ordenados con todos los atributos
     for (const auto& elemento : todosElementos) {
         std::cout << "Código: " << elemento.getCodigo() << ", "
                   << "Nombre: " << elemento.getNombre() << ", "
                   << "País: " << elemento.getPais() << ", "
-                  << "Superficie: " << elemento.getSuperficie() << std::endl;
+                  << "Superficie: " << elemento.getSuperficie() << ", "
+                  << "Laboratorios: " << elemento.getNumLaboratorios() << ", "
+                  << "Proyectos Nacionales: " << elemento.getProyectosNacionales() << ", "
+                  << "Proyectos Internacionales: " << elemento.getProyectosInternacionales()
+                  << std::endl;
     }
 }
 

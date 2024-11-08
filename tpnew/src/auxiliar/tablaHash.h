@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "lista.h" // Incluye el archivo que contiene la clase Lista
+#include "lista.h"
 
 template <typename T>
 class TablaHash {
@@ -23,7 +23,10 @@ public:
     void insertar(const std::string& codigo, const T& elemento);
 
     // Método para buscar un elemento por su código
-    bool buscar(const std::string& codigo);
+    bool existe(const std::string& codigo);
+
+    // Método para buscar
+    T buscar(const std::string& codigo);
 
     // Método para eliminar un elemento por su código
     bool eliminar(const std::string& codigo);

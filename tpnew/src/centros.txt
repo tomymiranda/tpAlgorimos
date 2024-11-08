@@ -1,13 +1,13 @@
-CSI;Centro Científico de Innovación;España;12.5;15;23;12
-LAT;Laboratorio Avanzado de Tecnología;Brasil;8.7;8;12;18
-CTA;Centro de Tecnología Aplicada;Argentina;6.2;10;20;8
+CSI;Centro Científico de Innovación;Espania;12.5;15;23;12
+LAT;Laboratorio Avanzado de Tecnologia;Brasil;8.7;8;12;18
+CTA;Centro de Tecnologia Aplicada;Argentina;6.2;10;20;8
 ABC;Academia de Biociencias;Chile;9.4;5;14;10
-DEF;Desarrollo Ecológico y Forestal;México;10.2;7;19;15
-GHI;Grupo de Innovación en Salud;Colombia;11.5;9;16;20
-JKL;Instituto de Energías Renovables;Perú;15.0;12;25;14
-MNO;Centro de Investigación de Materiales;Uruguay;7.8;6;10;9
-PQR;Plataforma de Tecnología Aeroespacial;Venezuela;12.3;8;15;11
-STU;Unidad de Nanotecnología;Paraguay;5.6;4;7;13
+DEF;Desarrollo Ecologico y Forestal;México;10.2;7;19;15
+GHI;Grupo de Innovacion en Salud;Colombia;11.5;9;16;20
+JKL;Instituto de Energias Renovables;Peru;15.0;12;25;14
+MNO;Centro de Investigacion de Materiales;Uruguay;7.8;6;10;9
+PQR;Plataforma de Tecnologia Aeroespacial;Venezuela;12.3;8;15;11
+STU;Unidad de Nanotecnologia;Paraguay;5.6;4;7;13
 VWX;Centro de Ciencias Atmosféricas;Bolivia;8.1;11;21;17
-YZA;Instituto de Robótica y Automatización;Ecuador;13.2;13;18;20
+YZA;Instituto de Robotica y Automatizacion;Ecuador;13.2;13;18;20
 BCD;Centro de Estudios de Sostenibilidad;Argentina;14.7;10;12;8

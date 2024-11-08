@@ -84,18 +84,30 @@ CentroInvestigacion LectorArchivo::crearCentroDesdeLinea(const std::string& line
     float superficie;
     int num_laboratorios, proyectos_nacionales, proyectos_internacionales;
 
-    ss >> codigo;
+    // Leer los campos usando ';' como delimitador
+    std::getline(ss, codigo, ';');
     std::getline(ss, nombre, ';');
-    ss >> ciudad >> pais >> superficie >> num_laboratorios >> proyectos_nacionales >> proyectos_internacionales;
+    std::getline(ss, pais, ';');
+    ss >> superficie;
+    ss.ignore(1, ';');  // Ignorar el punto y coma
+    ss >> num_laboratorios;
+    ss.ignore(1, ';');
+    ss >> proyectos_nacionales;
+    ss.ignore(1, ';');
+    ss >> proyectos_internacionales;
 
+    // Limpiar posibles espacios en blanco al inicio o final de los campos
     nombre.erase(0, nombre.find_first_not_of(" "));
+    nombre.erase(nombre.find_last_not_of(" ") + 1);
+    pais.erase(0, pais.find_first_not_of(" "));
+    pais.erase(pais.find_last_not_of(" ") + 1);
 
-    return CentroInvestigacion(codigo, nombre, ciudad, pais, superficie,
+    return CentroInvestigacion(codigo, nombre, pais, superficie,
                                num_laboratorios, proyectos_nacionales,
                                proyectos_internacionales);
 }
 
-// Crear un objeto ProyectoCientifico a partir de una línea
+
 // Crear un objeto ProyectoCientifico a partir de una línea
 ProyectoCientifico LectorArchivo::crearProyectoDesdeLinea(const std::string& linea) {
     std::istringstream ss(linea);

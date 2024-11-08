@@ -36,6 +36,27 @@ private:
 
     // Cargar los datos de proyectos desde el archivo de texto
     void cargar_proyectos(const std::string& archivo_proyectos);
+
+    // Consultar un centro de investigación en particular
+    void consultar_centro();
+
+    // Agregar un nuevo centro de investigación
+    void agregar_centro();
+
+    // Eliminar un centro de investigación
+    void eliminar_centro();
+
+    // Mostrar todos los centros de investigación ordenados
+    void mostrar_todos_los_centros();
+
+    // Función para verificar si un número es primo
+    bool esPrimo(int n);
+
+    // Función para encontrar el siguiente número primo mayor o igual a un número dado
+    int siguientePrimo(int num);
+
+   // Función para contar la cantidad de centros en el archivo
+    int contar_centros(const std::string& archivo_centros);
 };
 
 #endif  // MENU_H

@@ -32,6 +32,9 @@ public:
 
     // Sobrecarga del operador de salida para imprimir el proyecto
     friend std::ostream& operator<<(std::ostream& out, const ProyectoCientifico& proyecto);
+
+    // Sobrecarga del operador < para ordenar por duración (para uso en priority_queue)
+    bool operator<(const ProyectoCientifico& otro) const;
 };
 
 #endif  // PROYECTO_CIENTIFICO_H

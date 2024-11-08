@@ -1,9 +1,6 @@
 #include "proyectoCientifico.h"
 #include <iostream>
 
-// Constructor por defecto
-//ProyectoCientifico::ProyectoCientifico() : centro_origen(""), centro_destino(""), costo(0), duracion(0) {}
-
 // Constructor con parámetros
 ProyectoCientifico::ProyectoCientifico(const std::string& origen, const std::string& destino, float costo, float duracion)
     : centro_origen(origen), centro_destino(destino), costo(costo), duracion(duracion) {}
@@ -40,6 +37,10 @@ void ProyectoCientifico::setCosto(float nuevo_costo) {
 
 void ProyectoCientifico::setDuracion(float nueva_duracion) {
     duracion = nueva_duracion;
+}
+
+bool ProyectoCientifico::operator<(const ProyectoCientifico& otro) const {
+    return this->getDuracion() > otro.getDuracion();  // Ordenar por duración de menor a mayor
 }
 
 // Sobrecarga del operador de salida

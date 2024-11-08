@@ -36,103 +36,102 @@ public:
 
     // Método para encontrar el camino de colaboración más económico
     void colaboracion_mas_economica(const std::string& origen, const std::string& destino) {
-        if (adyacencias.find(origen) == adyacencias.end()) {
-            std::cout << "No se encontraron colaboraciones para el centro de origen " << origen << ".\n";
-            return;
-        }
+            if (adyacencias.find(origen) == adyacencias.end()) {
+                std::cout << "No se encontraron colaboraciones para el centro de origen " << origen << ".\n";
+                return;
+            }
 
-        std::queue<std::tuple<std::string, float, std::vector<T>>> cola;
-        float costoMinimo = std::numeric_limits<float>::max();
-        std::vector<T> caminoOptimo;
+            std::queue<std::tuple<std::string, float, std::vector<T>>> cola;
+            float costoMinimo = std::numeric_limits<float>::max();
+            std::vector<T> caminoOptimo;
 
-        cola.push({origen, 0.0, {}});
+            cola.push({origen, 0.0, {}});
 
-        while (!cola.empty()) {
-            auto [centroActual, costoAcumulado, camino] = cola.front();
-            cola.pop();
+            while (!cola.empty()) {
+                auto [centroActual, costoAcumulado, camino] = cola.front();
+                cola.pop();
 
-            if (centroActual == destino) {
-                if (costoAcumulado < costoMinimo) {
-                    costoMinimo = costoAcumulado;
-                    caminoOptimo = camino;
+                if (centroActual == destino) {
+                    if (costoAcumulado < costoMinimo) {
+                        costoMinimo = costoAcumulado;
+                        caminoOptimo = camino;
+                    }
+                    continue;
                 }
-                continue;
-            }
 
-            for (int i = 0; i < adyacencias[centroActual].obtener_largo(); ++i) {
-                T proyecto = adyacencias[centroActual].consulta(i);
-                std::string siguienteCentro = proyecto.getCentroDestino();
-                float nuevoCostoAcumulado = costoAcumulado + proyecto.getCosto();
+                for (int i = 0; i < adyacencias[centroActual].obtener_largo(); ++i) {
+                    T proyecto = adyacencias[centroActual].consulta(i);
+                    std::string siguienteCentro = proyecto.getCentroDestino();
+                    float nuevoCostoAcumulado = costoAcumulado + proyecto.getCosto();
 
-                if (nuevoCostoAcumulado < costoMinimo) {
-                    std::vector<T> nuevoCamino = camino;
-                    nuevoCamino.push_back(proyecto);
-                    cola.push({siguienteCentro, nuevoCostoAcumulado, nuevoCamino});
+                    if (nuevoCostoAcumulado < costoMinimo) {
+                        std::vector<T> nuevoCamino = camino;
+                        nuevoCamino.push_back(proyecto);
+                        cola.push({siguienteCentro, nuevoCostoAcumulado, nuevoCamino});
+                    }
                 }
             }
-        }
 
-        if (caminoOptimo.empty()) {
-            std::cout << "No se encontraron colaboraciones entre " << origen << " y " << destino << ".\n";
-        } else {
-            std::cout << "Camino de colaboración más económico encontrado:\n";
-            for (const auto& proyecto : caminoOptimo) {
-                std::cout << "Proyecto: " << proyecto.getCentroOrigen() << " a " << proyecto.getCentroDestino()
-                          << ", Costo: " << proyecto.getCosto() << " miles de pesos\n";
+            if (caminoOptimo.empty()) {
+                std::cout << "No se encontraron colaboraciones entre " << origen << " y " << destino << ".\n";
+            } else {
+                std::cout << "Camino de colaboración más económico encontrado:\n";
+                for (const auto& proyecto : caminoOptimo) {
+                    std::cout << "Proyecto: " << proyecto.getCentroOrigen() << " a " << proyecto.getCentroDestino()
+                              << ", Costo: " << proyecto.getCosto() << " miles de pesos\n";
+                }
+                std::cout << "Costo total de la colaboración más económica: " << costoMinimo << " miles de pesos\n";
             }
-            std::cout << "Costo total de la colaboración más económica: " << costoMinimo << " miles de pesos\n";
         }
-    }
-
     // Método para encontrar el camino de colaboración más rápida
     void colaboracion_mas_rapida(const std::string& origen, const std::string& destino) {
-        if (adyacencias.find(origen) == adyacencias.end()) {
-            std::cout << "No se encontraron colaboraciones para el centro de origen " << origen << ".\n";
-            return;
-        }
+            if (adyacencias.find(origen) == adyacencias.end()) {
+                std::cout << "No se encontraron colaboraciones para el centro de origen " << origen << ".\n";
+                return;
+            }
 
-        std::queue<std::tuple<std::string, float, std::vector<T>>> cola;
-        float duracionMinima = std::numeric_limits<float>::max();
-        std::vector<T> caminoOptimo;
+            std::queue<std::tuple<std::string, float, std::vector<T>>> cola;
+            float duracionMinima = std::numeric_limits<float>::max();
+            std::vector<T> caminoOptimo;
 
-        cola.push({origen, 0.0, {}});
+            cola.push({origen, 0.0, {}});
 
-        while (!cola.empty()) {
-            auto [centroActual, duracionAcumulada, camino] = cola.front();
-            cola.pop();
+            while (!cola.empty()) {
+                auto [centroActual, duracionAcumulada, camino] = cola.front();
+                cola.pop();
 
-            if (centroActual == destino) {
-                if (duracionAcumulada < duracionMinima) {
-                    duracionMinima = duracionAcumulada;
-                    caminoOptimo = camino;
+                if (centroActual == destino) {
+                    if (duracionAcumulada < duracionMinima) {
+                        duracionMinima = duracionAcumulada;
+                        caminoOptimo = camino;
+                    }
+                    continue;
                 }
-                continue;
-            }
 
-            for (int i = 0; i < adyacencias[centroActual].obtener_largo(); ++i) {
-                T proyecto = adyacencias[centroActual].consulta(i);
-                std::string siguienteCentro = proyecto.getCentroDestino();
-                float nuevaDuracionAcumulada = duracionAcumulada + proyecto.getDuracion();
+                for (int i = 0; i < adyacencias[centroActual].obtener_largo(); ++i) {
+                    T proyecto = adyacencias[centroActual].consulta(i);
+                    std::string siguienteCentro = proyecto.getCentroDestino();
+                    float nuevaDuracionAcumulada = duracionAcumulada + proyecto.getDuracion();
 
-                if (nuevaDuracionAcumulada < duracionMinima) {
-                    std::vector<T> nuevoCamino = camino;
-                    nuevoCamino.push_back(proyecto);
-                    cola.push({siguienteCentro, nuevaDuracionAcumulada, nuevoCamino});
+                    if (nuevaDuracionAcumulada < duracionMinima) {
+                        std::vector<T> nuevoCamino = camino;
+                        nuevoCamino.push_back(proyecto);
+                        cola.push({siguienteCentro, nuevaDuracionAcumulada, nuevoCamino});
+                    }
                 }
             }
-        }
 
-        if (caminoOptimo.empty()) {
-            std::cout << "No se encontraron colaboraciones entre " << origen << " y " << destino << ".\n";
-        } else {
-            std::cout << "Camino de colaboración más rápida encontrado:\n";
-            for (const auto& proyecto : caminoOptimo) {
-                std::cout << "Proyecto: " << proyecto.getCentroOrigen() << " a " << proyecto.getCentroDestino()
-                          << ", Duración: " << proyecto.getDuracion() << " meses\n";
+            if (caminoOptimo.empty()) {
+                std::cout << "No se encontraron colaboraciones entre " << origen << " y " << destino << ".\n";
+            } else {
+                std::cout << "Camino de colaboración más rápida encontrado:\n";
+                for (const auto& proyecto : caminoOptimo) {
+                    std::cout << "Proyecto: " << proyecto.getCentroOrigen() << " a " << proyecto.getCentroDestino()
+                              << ", Duración: " << proyecto.getDuracion() << " meses\n";
+                }
+                std::cout << "Duración total de la colaboración más rápida: " << duracionMinima << " meses\n";
             }
-            std::cout << "Duración total de la colaboración más rápida: " << duracionMinima << " meses\n";
         }
-    }
 
     // Método BFS para verificar si existe un camino entre dos centros
     bool existe_camino_bfs(const std::string& origen, const std::string& destino) {
