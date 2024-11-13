@@ -17,7 +17,7 @@ bool Menu::esPrimo(int n) {
     return true;
 }
 
-// Función para encontrar el siguiente número primo mayor o igual a un número dado
+// Métodp para encontrar el siguiente número primo mayor o igual a un número dado
 int Menu::siguientePrimo(int num) {
     while (!esPrimo(num)) {
         ++num;
@@ -25,7 +25,7 @@ int Menu::siguientePrimo(int num) {
     return num;
 }
 
-// Función para contar la cantidad de centros en el archivo
+// Método para contar la cantidad de centros en el archivo
 int Menu::contar_centros(const std::string& archivo_centros) {
     std::ifstream archivo(archivo_centros);
     int contador = 0;
@@ -186,11 +186,26 @@ void Menu::eliminar_centro() {
 // Mostrar todos los centros de investigación ordenados
 void Menu::mostrar_todos_los_centros() {
     std::string criterio;
-    std::cout << "Ingrese el criterio de ordenamiento (nombre, pais, superficie): ";
+
+    // Mensaje de presentación con formato bonito
+    std::cout << "\n*** Mostrar Todos los Centros de Investigación ***\n";
+    std::cout << "\nIngrese el criterio de ordenamiento de los centros (elija uno de los siguientes):\n";
+    std::cout << "-----------------------------------------------\n";
+    std::cout << "1. nombre\n";
+    std::cout << "2. pais\n";
+    std::cout << "3. superficie\n";
+    std::cout << "4. codigo\n";
+    std::cout << "5. laboratorio  (cantidad de laboratorios)\n";
+    std::cout << "6. nacionales  (cantidad de proyectos nacionales)\n";
+    std::cout << "7. internacionales  (cantidad de proyectos internacionales)\n";
+    std::cout << "-----------------------------------------------\n";
+    std::cout << "\nIngrese el criterio de ordenamiento (por ejemplo, 'nombre'): ";
     std::cin >> criterio;
 
+    // Llamada a la función de la tabla para mostrar los centros ordenados
     tabla.mostrarTodos(criterio);
 }
+
 
 // Cargar centros desde el archivo utilizando LectorArchivo
 void Menu::cargar_centros(const std::string& archivo_centros) {
@@ -199,20 +214,8 @@ void Menu::cargar_centros(const std::string& archivo_centros) {
 
     for (const auto& centro : lector.leerArchivoCentros()) {  // Itera directamente sobre los centros leídos
         // Verificación de los valores del centro antes de insertarlo
-        std::cout << "Depuración: Leyendo centro: "
-                  << "Código: " << centro.getCodigo() << ", "
-                  << "Nombre: " << centro.getNombre() << ", "
-                  << "País: " << centro.getPais() << ", "
-                  << "Superficie: " << centro.getSuperficie() << std::endl;
 
         tabla.insertar(centro.getCodigo(), centro);  // Agrega cada centro a la tabla de hash
-
-        // Verificación de los datos después de la inserción
-        std::cout << "Centro insertado en la tabla: "
-                  << "Código: " << centro.getCodigo() << ", "
-                  << "Nombre: " << centro.getNombre() << ", "
-                  << "País: " << centro.getPais() << ", "
-                  << "Superficie: " << centro.getSuperficie() << std::endl;
 
         std::cout << "Centro cargado: " << centro.getCodigo() << " - " << centro.getNombre()
                    << ", " << centro.getPais() << "\n";

@@ -31,7 +31,7 @@ public:
     // Método para eliminar un elemento por su código
     bool eliminar(const std::string& codigo);
 
-    // Método para mostrar todos los elementos, ordenados por el criterio dado
+    // Método para mostrar todos los elementos ordenados por el criterio dado
     void mostrarTodos(const std::string& criterio);
 };
 

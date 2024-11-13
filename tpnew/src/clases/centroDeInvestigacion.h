@@ -15,12 +15,13 @@ private:
     int proyectos_internacionales;
 
 public:
+    // Constructor de Centro de Investigación
     CentroInvestigacion(const std::string& codigo, const std::string& nombre,
                         const std::string& pais,
                         float superficie, int num_laboratorios,
                         int proyectos_nacionales, int proyectos_internacionales);
 
-    // Getters
+    // Métodos getters de Centro de Investigación
     std::string getCodigo() const;
     std::string getNombre() const;
     std::string getPais() const;

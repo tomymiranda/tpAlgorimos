@@ -21,11 +21,14 @@ public:
     // Constructor sin parámetros
     Grafo() {}
 
+
+    // Método para agregar un proyecto al grafo, se crea un objeto del tipo proyecto y lo agrega
     void agregar_proyecto(const std::string& centro_origen, const std::string& centro_destino, float costo, float duracion) {
         T nuevoProyecto(centro_origen, centro_destino, costo, duracion);
         adyacencias[centro_origen].alta(nuevoProyecto, adyacencias[centro_origen].obtener_largo());
     }
 
+    // Método que muestra todas las colaboracioes de un centro
     void mostrar_colaboraciones(const std::string& centro_origen) {
         if (adyacencias.find(centro_origen) == adyacencias.end()) {
             std::cout << "El centro no tiene colaboraciones registradas.\n";

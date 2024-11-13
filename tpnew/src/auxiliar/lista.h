@@ -28,9 +28,11 @@ private:
 
 // Implementación de métodos
 
+// Constructor
 template <typename T>
 Lista<T>::Lista() : primero(nullptr), largo(0) {}
 
+// Método para agregar un Nodo a la lista
 template <typename T>
 void Lista<T>::alta(T d, int pos) {
     Nodo<T>* nuevo = new Nodo<T>(d);
@@ -45,6 +47,7 @@ void Lista<T>::alta(T d, int pos) {
     largo++;
 }
 
+// Método para dar de baja un Nodo de la lista
 template <typename T>
 void Lista<T>::baja(int pos) {
     if (pos == 0) {
@@ -60,16 +63,19 @@ void Lista<T>::baja(int pos) {
     largo--;
 }
 
+// Método que devuelve un el dato de un Nodo, en una posicion especifica
 template <typename T>
 T Lista<T>::consulta(int pos) const {
     return obtener_nodo(pos)->obtener_dato();
 }
 
+// Método que devuelve si la lista está vacía
 template <typename T>
 bool Lista<T>::vacia() const {
     return largo == 0;
 }
 
+// Método destructor para liberar la memoria ocupada por los Nodos de la lista cuando el objeto Lista es destruido
 template <typename T>
 Lista<T>::~Lista() {
     while (!vacia()) {
@@ -77,12 +83,13 @@ Lista<T>::~Lista() {
     }
 }
 
+// Método para obtener el largo de la Lista
 template <typename T>
 int Lista<T>::obtener_largo() const {
     return largo;
 }
 
-// Implementación de mostrar() movida al archivo de cabecera
+// Método que imprime los datos de todos los proyectos del grafo
 template <typename T>
 void Lista<T>::mostrar() const {
     Nodo<T>* actual = primero;
@@ -100,6 +107,7 @@ void Lista<T>::mostrar() const {
     std::cout << std::endl;
 }
 
+// Método que devuelve un puntero al Nodo en la posición específica
 template <typename T>
 Nodo<T>* Lista<T>::obtener_nodo(int pos) const {
     Nodo<T>* actual = primero;

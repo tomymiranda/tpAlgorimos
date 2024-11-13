@@ -1,7 +1,7 @@
 #include "centroDeInvestigacion.h"
 #include <iostream>
 
-// Implementación del constructor
+// Constructor de Centro de Investigación
 CentroInvestigacion::CentroInvestigacion(const std::string& codigo, const std::string& nombre,
                                           const std::string& pais,
                                          float superficie, int num_laboratorios,
@@ -10,7 +10,7 @@ CentroInvestigacion::CentroInvestigacion(const std::string& codigo, const std::s
       num_laboratorios(num_laboratorios), proyectos_nacionales(proyectos_nacionales),
       proyectos_internacionales(proyectos_internacionales) {}
 
-// Implementación de los getters
+// Métodos getters de Centro de Investigación
 std::string CentroInvestigacion::getCodigo() const { return codigo; }
 std::string CentroInvestigacion::getNombre() const { return nombre; }
 std::string CentroInvestigacion::getPais() const { return pais; }

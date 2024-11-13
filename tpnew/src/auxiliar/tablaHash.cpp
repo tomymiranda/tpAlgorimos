@@ -11,7 +11,7 @@ TablaHash<T>::TablaHash(int cap) : capacidad(cap) {
     tabla.resize(capacidad);  // Inicializa con instancias de Lista de tipo T
 }
 
-// Función de hash
+// Función de hash para la tabla
 template <typename T>
 int TablaHash<T>::hashFunction(const std::string& codigo) {
     int hashValue = 0;

@@ -136,10 +136,6 @@ ProyectoCientifico LectorArchivo::crearProyectoDesdeLinea(const std::string& lin
     destino.erase(0, destino.find_first_not_of(" "));
     destino.erase(destino.find_last_not_of(" ") + 1);
 
-    // Mostrar los valores finales leídos para verificar
-    std::cout << "Origen: " << origen << ", Destino: " << destino
-              << ", Costo: " << costo << ", Duración: " << duracion << std::endl;
-
     return ProyectoCientifico(origen, destino, costo, duracion);
 }
 
